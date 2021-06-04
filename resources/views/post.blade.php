@@ -15,7 +15,6 @@
                             <a href="/authors/{{$post->author->username}}">
                                 <h5 class="font-bold">{{$post->author->name}}</h5>
                             </a>
-                            <h6>TODO: Slogan</h6>
                         </div>
                     </div>
                 </div>

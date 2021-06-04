@@ -42,7 +42,6 @@
                             <h5 class="font-bold">{{$post->author->name}}</h5>
                         </a>
 
-                        <h6>TODO: Post Author's slogan</h6>
                     </div>
                 </div>
 
