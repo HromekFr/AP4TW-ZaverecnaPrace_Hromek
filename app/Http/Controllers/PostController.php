@@ -32,24 +32,34 @@ class PostController extends Controller
     }
 
     public function create() {
-        return view('posts.create', [
-            'categories' => Category::all()
-        ]);
+        $user = Auth::user();
+        if (!is_null($user)) {
+            return view('posts.create', [
+                'categories' => Category::all()
+            ]);
+        }
+
+        return view('errors.not_logged');
     }
 
     public function store() {
-        $attributes = request()->validate([
-            'category_id' => 'required',
-            'title' => 'required|max:100',
-            'excerpt' => 'required|max:255',
-            'body' => 'required'
-        ]);
-        $attributes['user_id'] = Auth::user()->id;
-        $attributes['slug'] = str_replace(' ','-',strtolower($attributes['title']));
-        $attributes['created_at'] = new \DateTime();
-        Post::create($attributes);
+        $user = Auth::user();
+        if (!is_null($user)) {
+            $attributes = request()->validate([
+                'category_id' => 'required',
+                'title' => 'required|max:100',
+                'excerpt' => 'required|max:255',
+                'body' => 'required'
+            ]);
+            $attributes['user_id'] = Auth::user()->id;
+            $attributes['slug'] = str_replace(' ', '-', strtolower($attributes['title']));
+            $attributes['created_at'] = new \DateTime();
+            Post::create($attributes);
 
-        return redirect('/admin/posts');
+            return redirect('/');
+        }
+
+        return view('errors.not_logged');
     }
 
     public function show(Post $post) {
@@ -60,41 +70,56 @@ class PostController extends Controller
     }
 
     public function edit(Post $post) {
-        return view('posts.edit', [
-            'post' => $post,
-            'categories' => Category::all()
-        ]);
+        $user = Auth::user();
+        if (!is_null($user)) {
+            return view('posts.edit', [
+                'post' => $post,
+                'categories' => Category::all()
+            ]);
+        }
+
+        return view('errors.not_admin');
     }
 
     public function update() {
-        $attributes = request()->validate([
-            'id' => 'required',
-            'category_id' => 'required',
-            'title' => 'required|max:100',
-            'excerpt' => 'required|max:255',
-            'body' => 'required'
-        ]);
+        $user = Auth::user();
+        if (!is_null($user)) {
+            $attributes = request()->validate([
+                'id' => 'required',
+                'category_id' => 'required',
+                'title' => 'required|max:100',
+                'excerpt' => 'required|max:255',
+                'body' => 'required'
+            ]);
 
-        $post = Post::find($attributes['id']);
-        $post['category_id'] = $attributes['category_id'];
-        $post['title'] = $attributes['title'];
-        $post['excerpt'] = $attributes['excerpt'];
-        $post['body'] = $attributes['body'];
-        $post->save();
+            $post = Post::find($attributes['id']);
+            $post['category_id'] = $attributes['category_id'];
+            $post['title'] = $attributes['title'];
+            $post['excerpt'] = $attributes['excerpt'];
+            $post['body'] = $attributes['body'];
+            $post->save();
 
-        return redirect('/admin/posts');
+            return redirect('/admin/posts');
+        }
+
+        return view('errors.not_admin');
 
     }
 
     public function destroy() {
-        $attributes = request()->validate([
-            'id' => 'required'
-        ]);
+        $user = Auth::user();
+        if (!is_null($user)) {
+            $attributes = request()->validate([
+                'id' => 'required'
+            ]);
 
-        $post = Post::find($attributes['id']);
-        $post->delete();
+            $post = Post::find($attributes['id']);
+            $post->delete();
 
-        return redirect('/admin/posts');
+            return redirect('/admin/posts');
+        }
+
+        return view('errors.not_admin');
 
 
     }

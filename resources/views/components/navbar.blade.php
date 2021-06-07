@@ -30,6 +30,12 @@
                     </a>
                 @endif
 
+                @if(!$user->isAdmin)
+                    <a href="/admin/posts/create" class="bg-yellow-600 ml-3 rounded-full text-xs font-semibold text-white uppercase py-3 px-5">
+                        Nový příspěvek
+                    </a>
+                @endif
+
                 <a href="/logout" class="bg-yellow-600 ml-3 rounded-full text-xs font-semibold text-white uppercase py-3 px-5">
                     Odhlásit se
                 </a>
