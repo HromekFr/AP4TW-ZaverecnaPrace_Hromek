@@ -32,17 +32,19 @@ class PostController extends Controller
     }
 
     public function create() {
-        return view('posts.create');
+        return view('posts.create', [
+            'categories' => Category::all()
+        ]);
     }
 
     public function store() {
         $attributes = request()->validate([
+            'category_id' => 'required',
             'title' => 'required|max:100',
             'excerpt' => 'required|max:255',
             'body' => 'required'
         ]);
         $attributes['user_id'] = Auth::user()->id;
-        $attributes['category_id'] = 1;
         $attributes['slug'] = str_replace(' ','-',strtolower($attributes['title']));
         $attributes['created_at'] = new \DateTime();
         Post::create($attributes);
@@ -52,25 +54,29 @@ class PostController extends Controller
 
     public function show(Post $post) {
         return view('posts.show', [
-            'post' => $post
+            'post' => $post,
+            'user' => Auth::user()
         ]);
     }
 
     public function edit(Post $post) {
         return view('posts.edit', [
-            'post' => $post
+            'post' => $post,
+            'categories' => Category::all()
         ]);
     }
 
     public function update() {
         $attributes = request()->validate([
             'id' => 'required',
+            'category_id' => 'required',
             'title' => 'required|max:100',
             'excerpt' => 'required|max:255',
             'body' => 'required'
         ]);
 
         $post = Post::find($attributes['id']);
+        $post['category_id'] = $attributes['category_id'];
         $post['title'] = $attributes['title'];
         $post['excerpt'] = $attributes['excerpt'];
         $post['body'] = $attributes['body'];

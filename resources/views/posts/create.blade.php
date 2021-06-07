@@ -18,6 +18,18 @@
                 </div>
 
                 <div class="mb-6">
+                    <label class="block mb-2 uppercase font-bold text-xs text-gray-700" for="category_id">
+                        Kategorie
+                    </label>
+                    <select name="category_id" id="category_id">
+                        @foreach($categories as $category)
+                            <option value="{{$category->id}}">{{$category->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+
+                <div class="mb-6">
                     <label class="block mb-2 uppercase font-bold text-xs text-gray-700" for="excerpt">
                         Výňatek
                     </label>

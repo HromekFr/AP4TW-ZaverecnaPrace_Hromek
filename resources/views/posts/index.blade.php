@@ -1,5 +1,4 @@
 <x-layout>
-
     <x-navbar :user="$user" />
 
     @include('posts._header')
