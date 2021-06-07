@@ -15,10 +15,11 @@
         </div>
 
         <div class="mt-8 md:mt-0">
-            <a href="/" class="text-xs font-bold uppercase">Domovská stránka</a>
-
-            <a href="#" class="bg-yellow-600 ml-3 rounded-full text-xs font-semibold text-white uppercase py-3 px-5">
-                Subscribe for Updates
+            <a href="/register" class="bg-yellow-600 ml-3 rounded-full text-xs font-semibold text-white uppercase py-3 px-5">
+                Registrovat se
+            </a>
+            <a href="/" class="bg-yellow-600 ml-3 rounded-full text-xs font-semibold text-white uppercase py-3 px-5">
+                Domovská stránka
             </a>
         </div>
     </nav>
